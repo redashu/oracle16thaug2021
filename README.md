@@ -148,3 +148,128 @@ CONTAINER ID   IMAGE     COMMAND            CREATED              STATUS         
 
 ```
 
+## checking resource consumption 
+
+```
+docker stats
+
+CONTAINER ID   NAME              CPU %     MEM USAGE / LIMIT   MEM %     NET I/O       BLOCK I/O     PIDS
+305600e6acb0   skumar_firstcon   0.01%     628KiB / 7.69GiB    0.01%     1.13kB / 0B   0B / 0B       1
+3cbb69c2bb48   srini2            0.01%     664KiB / 7.69GiB    0.01%     1.13kB / 0B   0B / 0B       1
+394c8c79e285   padma1            0.01%     692KiB / 7.69GiB    0.01%     1.06kB / 0B   0B / 0B       1
+7dbd97571d60   SK1               0.00%     732KiB / 7.69GiB    0.01%     1.47kB / 0B   0B / 0B       1
+228dbe97bd9a   mycont_praveen    0.01%     604KiB / 7.69GiB    0.01%     1.47kB / 0B   0B / 0B       1
+eaf879474506   karthik           0.01%     660KiB / 7.69GiB    0.01%     1.47kB / 0B   0B / 0B       1
+7a440bec28a5   yashC1            0.01%     656KiB / 7.69GiB    0.01%     1.47kB / 0B   0B / 0B       1
+03b0dfc9601c   poorvi91          0.01%     708KiB / 7.69GiB    0.01%     1.47kB / 0B   0B / 0B       1
+990085dc9fd1   sriram            0.01%     656KiB / 7.69GiB    0.01%     1
+
+```
+
+### stopping containre 
+
+```
+[ashu@ip-172-31-79-145 ~]$ docker  stop   ashuc1 
+ashuc1
+[ashu@ip-172-31-79-145 ~]$ docker  ps
+CONTAINER ID   IMAGE     COMMAND            CREATED             STATUS             PORTS     NAMES
+3cbb69c2bb48   alpine    "ping localhost"   About an hour ago   Up About an hour             srini2
+394c8c79e285   alpine    "ping localhost"   About an hour ago   Up About an hour             padma1
+7dbd97571d60   alpine    "ping localhost"   About an hour ago   Up About an hour             SK1
+228dbe97bd9a   alpine    "ping localhost"   About an hour ago   Up About an hour             mycont_praveen
+eaf879474506   alpine    "ping localhost"   About an hour ago   Up About an hour             karthik
+7a440bec28a5   alpine    "ping localhost"   About an hour ago   Up About an hour             yashC1
+03b0dfc9601c   alpine    "ping localhost"   About an hour ago   Up About an hour             poorvi91
+990085dc9fd1   alpine    "ping localhost"   About an hour ago   Up About an hour             sriram
+47aa86f4af4f   alpine    "ping localhost"   2 hours ago         Up 2 hours                   jayac1
+
+
+```
+
+### starting container 
+
+```
+[ashu@ip-172-31-79-145 ~]$ docker  start  ashuc1 
+ashuc1
+[ashu@ip-172-31-79-145 ~]$ docker  ps
+CONTAINER ID   IMAGE     COMMAND            CREATED             STATUS             PORTS     NAMES
+3cbb69c2bb48   alpine    "ping localhost"   About an hour ago   Up About an hour             srini2
+228dbe97bd9a   alpine    "ping localhost"   About an hour ago   Up About an hour             mycont_praveen
+eaf879474506   alpine    "ping localhost"   About an hour ago   Up About an hour             karthik
+990085dc9fd1   alpine    "ping localhost"   About an hour ago   Up About an hour             sriram
+8b54ac88a1a5   alpine    "ping localhost"   2 hours ago         Up 5 seconds                 ashuc1
+
+```
+
+### check ouput of container process live 
+
+```
+ docker  logs  -f  ashuc1
+  docker  logs  ashuc1 # non live 
+```
+
+### loggin into running container 
+
+```
+[ashu@ip-172-31-79-145 ~]$ docker  exec  -it   ashuc1  sh 
+/ # 
+/ # 
+/ # cat  /etc/os-release 
+NAME="Alpine Linux"
+ID=alpine
+VERSION_ID=3.14.1
+PRETTY_NAME="Alpine Linux v3.14"
+HOME_URL="https://alpinelinux.org/"
+BUG_REPORT_URL="https://bugs.alpinelinux.org/"
+/ # whoami
+root
+/ # exit
+
+
+```
+
+### kill all container 
+
+```
+docker   kill  $(docker  ps  -q)
+
+```
+
+### starting all container 
+
+```
+docker  start  $(docker  ps -aq)
+
+```
+
+### deleting container 
+
+```
+[ashu@ip-172-31-79-145 ~]$ docker rm ashuc1
+ashuc1
+
+```
+
+### deleting only non running container 
+
+```
+ashu@ip-172-31-79-145 ~]$docker  rm  $(docker ps -aq)
+f4edefcdb863
+305600e6acb0
+ef7411ae0847
+3cbb69c2bb48
+35d98f5a0a79
+19444a7e49ec
+7dbd97571d60
+228dbe97bd9a
+eaf879474506
+7a440bec28a5
+03b0dfc9601c
+990085dc9fd1
+399ccf60f8ce
+47aa86f4af4f
+
+```
+
+
+
