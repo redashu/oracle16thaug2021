@@ -1,1 +1,4 @@
-# oracle16thaug2021
+#  training plan 
+
+<img src="trplan.png">
+
