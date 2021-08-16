@@ -317,4 +317,36 @@ CONTAINER ID   IMAGE           COMMAND                  CREATED              STA
 ```
 
 
+### Building docker image 
+
+```
+[ashu@ip-172-31-79-145 pythonapp]$ docker  build  -t  ashupython:v2 -f OL.dockerfile  . 
+Sending build context to Docker daemon   5.12kB
+Step 1/7 : FROM oraclelinux:8.4
+ ---> fcf3cbfc22ac
+Step 2/7 : LABEL name="ashutoshh"
+ ---> Running in 0d486c747237
+Removing intermediate container 0d486c747237
+ ---> 6ac21e84f537
+Step 3/7 : LABEL email="ashutoshh@linux.com"
+ ---> Running in a9b4cfdcad7c
+Removing intermediate container a9b4cfdcad7c
+ ---> 679cf77509b5
+Step 4/7 : RUN  dnf install python3 -y
+ ---> Running in bc7be7de9b5a
+ 
+ ```
+ 
+ ### building images
+ 
+ ```
+ 143  docker  build -t ashupython:v3 -f  alpine.dockerfile  . 
+  144  history 
+[ashu@ip-172-31-79-145 pythonapp]$ docker  images  |   grep -i ashu
+ashupython       v3        031de84a9894   9 seconds ago            53.9MB
+ashupython       v2        d99da7abba43   19 minutes ago           396MB
+ashupython       v1        dc02afe84e69   About an hour ago        886MB
+
+```
+
 
