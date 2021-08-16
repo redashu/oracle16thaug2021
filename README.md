@@ -26,4 +26,19 @@
 
 <img src="cre.png">
 
+## Intro to docker  (CRE)
+
+<img src="docker.png">
+
+## docker supported kernel 
+
+<img src="kerneld.png">
+
+## Docker Desktop 
+
+<img src="dd.png">
+
+## Download docker Desktop 
+
+[maclink](https://docs.docker.com/docker-for-mac/install/)
 
