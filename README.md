@@ -271,5 +271,50 @@ eaf879474506
 
 ```
 
+### app containerization 
+
+<img src="appcont.png">
+
+### Docker build tools 
+
+<img src="buildt.png">
+
+## Building python code based docker. image
+
+<img src="dimg.png">
+
+### build process
+
+```
+[ashu@ip-172-31-79-145 myimages]$ ls
+javacode  pythonapp
+[ashu@ip-172-31-79-145 myimages]$ cd  pythonapp/
+[ashu@ip-172-31-79-145 pythonapp]$ ls
+Dockerfile  oracle.py
+[ashu@ip-172-31-79-145 pythonapp]$ docker  build  -t  ashupython:v1  .  
+Sending build context to Docker daemon  3.584kB
+Step 1/6 : FROM python
+latest: Pulling from library/python
+627b765e08d1: Pull complete 
+c040670e5e55: Pull complete 
+073a180f4992: Pull complete 
+bf76209566d0: Pull complete 
+ca7044ed766e: Extracting  138.7MB/192.4MB
+7b16520e0e66: Download complete 
+
+
+```
+
+### creating container 
+
+```
+[ashu@ip-172-31-79-145 ~]$ docker run -itd --name ashupc1  ashupython:v1  
+325743e848982db70e238d653f1cf1ea1b7e3b09776a844b5ec2295613d1fbea
+[ashu@ip-172-31-79-145 ~]$ docker  ps
+CONTAINER ID   IMAGE           COMMAND                  CREATED              STATUS              PORTS     NAMES
+325743e84898   ashupython:v1   "python /mycode/orac…"   15 seconds ago       Up 13 seconds                 ashupc1
+
+```
+
 
 
