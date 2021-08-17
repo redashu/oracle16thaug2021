@@ -18,3 +18,29 @@
   178  docker  top  ashuc1
   
 ```
+
+## LImit Ram 
+
+```
+ docker  run -itd --name ashuc2  --memory 100m alpine ping fb.com 
+ 
+```
+
+### limit ram and cpu 
+
+```
+docker  run -itd --name ashuc3 --cpu-shares=20   --memory 100m alpine ping fb.com
+```
+
+### restart policy 
+
+[restart policy](https://docs.docker.com/config/containers/start-containers-automatically/)
+
+
+## putting restart policy 
+
+```
+docker  run -itd --name myname --restart always alpine ping localhost
+
+```
+
