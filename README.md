@@ -164,3 +164,71 @@ Step 3/5 : RUN dnf install httpd -y
  docker  run -itd  --name ashuwebc1  -p  1234:80   ashuhttpd:aug17th2021
 ```
 
+### docker recap 
+
+<img src="dcap.png">
+
+## image sharing 
+
+<img src="imgshare.png">
+
+## Docker public registry 
+
+<img src="reg.png">
+
+## docker image name 
+
+<img src="imgname.png">
+
+## docker hub image push 
+
+```
+[ashu@ip-172-31-79-145 myimages]$ docker  tag   ashuhttpd:aug17th2021  dockerashu/ashuhttpd:aug17th2021 
+[ashu@ip-172-31-79-145 myimages]$ 
+[ashu@ip-172-31-79-145 myimages]$ 
+[ashu@ip-172-31-79-145 myimages]$ docker  login -u  dockerashu
+Password: 
+WARNING! Your password will be stored unencrypted in /home/ashu/.docker/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+
+Login Succeeded
+[ashu@ip-172-31-79-145 myimages]$ docker  push  dockerashu/ashuhttpd:aug17th2021 
+The push refers to repository [docker.io/dockerashu/ashuhttpd]
+0d7372999182: Pushed 
+3cf5b4d5d8b0: Pushed 
+89ca13798c53: Mounted from library/oraclelinux 
+aug17th2021: digest: sha256:9a1ac822cd2c7a36e64c4b66260ce7c74883f60cb45013019d88dbd92d91bce0 size: 951
+[ashu@ip-172-31-79-145 myimages]$ docker  logout 
+Removing login credentials for https://index.docker.io/v1/
+
+
+```
+
+
+### from a different docker engine 
+
+```
+❯ docker  pull dockerashu/ashuhttpd:aug17th2021
+aug17th2021: Pulling from dockerashu/ashuhttpd
+2d6c3304745e: Already exists 
+14f175d153cf: Pull complete 
+c75d42f4581e: Pull complete 
+Digest: sha256:9a1ac822cd2c7a36e64c4b66260ce7c74883f60cb45013019d88dbd92d91bce0
+Status: Downloaded newer image for dockerashu/ashuhttpd:aug17th2021
+docker.io/dockerashu/ashuhttpd:aug17th2021
+❯ docker  images
+REPOSITORY             TAG           IMAGE ID       CREATED        SIZE
+dockerashu/ashuhttpd   aug17th2021   ceb1faf02f8a   2 hours ago    394MB
+openjdk                latest        f4489eef8885   4 days ago     467MB
+oraclelinux            8.4           fcf3cbfc22ac   4 days ago     247MB
+alpine                 latest        021b3423115f   10 days ago    5.6MB
+busybox                latest        69593048aa3a   2 months ago   1.24MB
+
+
+```
+
+## cloud based registry 
+
+<img src="cl.png">
+
