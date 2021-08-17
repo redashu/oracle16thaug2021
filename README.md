@@ -232,3 +232,156 @@ busybox                latest        69593048aa3a   2 months ago   1.24MB
 
 <img src="cl.png">
 
+##  DB in container format 
+
+```
+[ashu@ip-172-31-79-145 myimages]$ docker  run  -itd --name ashudb  -e  MYSQL_ROOT_PASSWORD=AshuDb088  mysql 
+Unable to find image 'mysql:latest' locally
+latest: Pulling from library/mysql
+33847f680f63: Pull complete 
+5cb67864e624: Pull complete 
+1a2b594783f5: Pull complete 
+b30e406dd925: Pull complete 
+48901e306e4c: Pull complete 
+603d2b7147fd: Pull complete 
+802aa684c1c4: Pull complete 
+715d3c143a06: Pull complete 
+6978e1b7a511: Pull complete 
+f0d78b0ac1be: Pull complete 
+35a94d251ed1: Pull complete 
+36f75719b1a9: Pull complete 
+Digest: sha256:8b928a5117cf5c2238c7a09cd28c2e801ac98f91c3f8203a8938ae51f14700fd
+Status: Downloaded newer image for mysql:latest
+a82d838cfd773930267021a0e30304ccb3eeb305fbd4d8100344adfb0c039006
+
+```
+
+### checking logs for db container readiness
+
+```
+[ashu@ip-172-31-79-145 myimages]$ docker  logs  -f  ashudb
+2021-08-17 09:46:23+00:00 [Note] [Entrypoint]: Entrypoint script for MySQL Server 8.0.26-1debian10 started.
+2021-08-17 09:46:23+00:00 [Note] [Entrypoint]: Switching to dedicated user 'mysql'
+2021-08-17 09:46:23+00:00 [Note] [Entrypoint]: Entrypoint script for MySQL Server 8.0.26-1debian10 started.
+2021-08-17 09:46:23+00:00 [Note] [Entrypoint]: Initializing database files
+2021-08-17T09:46:23.974214Z 0 [Warning] [MY-010139] [Server] Changed limits: max_open_files: 1024 (requested 8161)
+2021-08-17T09:46:23.974220Z 0 [Warning] [MY-010142] [Server] Changed limits: table_open_cache: 431 (requested 4000)
+2021-08-17T09:46:23.974712Z 0 [System] [MY-013169] [Server] /us
+
+```
+
+## do docker exec then login to db server 
+
+```
+root@a82d838cfd77:/# mysql  -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.26 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2021, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> 
+
+```
+
+### doing mysql query 
+
+```
+root@a82d838cfd77:/# mysql  -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.26 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2021, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+4 rows in set (0.01 sec)
+
+mysql> create  database  oracletraining;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| oracletraining     |
+| performance_schema |
+| sys                |
++--------------------+
+5 rows in set (0.00 sec)
+
+```
+
+## MSSQL server 
+
+
+<img src="mssql.png">
+
+### create 2019 db container 
+
+```
+docker  run -itd --name ashumssql  -e  "ACCEPT_EULA=Y"  -e  "MSSQL_SA_PASSWORD=Mcr099123@2"  --restart always  mcr.microsoft.com/mssql/server:2019-latest
+
+```
+
+### checking base os of container 
+
+```
+ashu@ip-172-31-79-145 myimages]$ docker  exec -it  ashumssql bash 
+fmssql@9f7f19c18af0:/$ 
+mssql@9f7f19c18af0:/$ cat  /etc/os-release 
+NAME="Ubuntu"
+VERSION="20.04.2 LTS (Focal Fossa)"
+ID=ubuntu
+ID_LIKE=debian
+PRETTY_NAME="Ubuntu 20.04.2 LTS"
+VERSION_ID="20.04"
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+VERSION_CODENAME=focal
+UBUNTU_CODENAME=focal
+
+```
+
+### connecting to mssql db 
+
+```
+[ashu@ip-172-31-79-145 myimages]$ docker  exec -it  ashumssql bash 
+mssql@9f7f19c18af0:/$ 
+mssql@9f7f19c18af0:/$ /opt/mssql-tools/bin/sqlcmd  -S localhost  -U SA -P 
+Sqlcmd: '-P': Missing argument. Enter '-?' for help.
+mssql@9f7f19c18af0:/$ /opt/mssql-tools/bin/sqlcmd  -S localhost  -U SA -P "Mcr099123@2"
+1> 
+2> 
+3> create database testDB;
+4> show databases;
+5> 
+
+```
+
