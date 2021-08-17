@@ -384,4 +384,143 @@ mssql@9f7f19c18af0:/$ /opt/mssql-tools/bin/sqlcmd  -S localhost  -U SA -P "Mcr09
 5> 
 
 ```
+## Intro to Container Networking 
 
+<img src="dnet.png">
+
+## checking default network bridge in Docker Host 
+
+```
+[ashu@ip-172-31-79-145 myimages]$ docker  network   ls
+NETWORK ID     NAME      DRIVER    SCOPE
+b59a3083244c   bridge    bridge    local
+ba497603296a   host      host      local
+5966d92a8a31   none      null      local
+
+```
+
+### 
+
+```
+[ashu@ip-172-31-79-145 myimages]$ docker  network  inspect  bridge 
+[
+    {
+        "Name": "bridge",
+        "Id": "b59a3083244cff464507567c16aaf1e863f3eaea32236a76ca87e706ff3266ac",
+        "Created": "2021-08-17T05:26:34.073045572Z",
+        "Scope": "local",
+        "Driver": "bridge",
+        "EnableIPv6": false,
+        "IPAM": {
+            "Driver": "default",
+            "Options": null,
+            "Config": [
+                {
+                    "Subnet": "172.17.0.0/16",
+                    "Gateway": "172.17.0.1"
+                }
+            ]
+        },
+        "Internal": false,
+        "Attachable": false,
+        "Ingress": false,
+        "ConfigFrom": {
+            "Network": ""
+        },
+        "ConfigOnly": false,
+        "Containers": {},
+        "Options": {
+            "com.docker.network.bridge.default_bridge": "true",
+            "com.docker.network.bridge.enable_icc": "true",
+            "com.docker.network.bridge.enable_ip_masquerade": "true",
+            "com.docker.network.bridge.host_binding_ipv4": "0.0.0.0",
+            "com.docker.network.bridge.name": "docker0",
+            "com.docker.network.driver.mtu": "1500"
+        },
+        "Labels": {}
+    }
+]
+
+```
+
+### creawting contaier
+
+```
+[ashu@ip-172-31-79-145 myimages]$ docker  run -tid --name ashuc1  alpine 
+343b520d6e8c3e026ba54dee2471bfff03af26c13a78e14531903a93bc5d6cd4
+[ashu@ip-172-31-79-145 myimages]$ docker  ps
+CONTAINER ID   IMAGE     COMMAND     CREATED         STATUS         PORTS     NAMES
+343b520d6e8c   alpine    "/bin/sh"   5 seconds ago   Up 3 seconds             ashuc1
+
+```
+
+### checking ip address of container 
+
+```
+[ashu@ip-172-31-79-145 myimages]$ docker  inspect  srinic1  --format='{{.NetworkSettings.IPAddress}}'
+172.17.0.7
+
+```
+
+### checking container connection 
+
+```
+[ashu@ip-172-31-79-145 myimages]$ docker  exec -it  ashuc1  sh 
+/ # ifconfig 
+eth0      Link encap:Ethernet  HWaddr 02:42:AC:11:00:02  
+          inet addr:172.17.0.2  Bcast:172.17.255.255  Mask:255.255.0.0
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:13 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:1030 (1.0 KiB)  TX bytes:0 (0.0 B)
+
+lo        Link encap:Local Loopback  
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          UP LOOPBACK RUNNING  MTU:65536  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+
+/ # ping 172.17.0.7
+PING 172.17.0.7 (172.17.0.7): 56 data bytes
+64 bytes from 172.17.0.7: seq=0 ttl=255 time=0.135 ms
+64 bytes from 172.17.0.7: seq=1 ttl=255 time=0.079 ms
+64 bytes from 172.17.0.7: seq=2 ttl=255 time=0.058 ms
+^C
+--- 172.17.0.7 ping statistics ---
+3 packets transmitted, 3 packets received, 0% packet loss
+round-trip min/avg/max = 0.058/0.090/0.135 ms
+
+```
+
+### Container can go outside Host using NAT
+
+<img src="nat.png">
+
+## port forwarding 
+
+<img src="portf.png">
+
+### MSSQL 
+
+```
+[ashu@ip-172-31-79-145 myimages]$ docker  run -itd --name ashumssql  -e  "ACCEPT_EULA=Y"  -e  "MSSQL_SA_PASSWORD=Mcr099123@2"  --restart always -p 1155:1433   mcr.microsoft.com/mssql/server:2019-latest
+f8aa47573719b403c3c2417ace5a01e2c9300205c5afde41c3afbd076e96c749
+[ashu@ip-172-31-79-145 myimages]$ 
+[ashu@ip-172-31-79-145 myimages]$ 
+[ashu@ip-172-31-79-145 myimages]$ <<X
+> 
+>  MSSQL CONNECTIOn details 
+> 
+>    URL :  3.221.254.99:1155 
+>   username: SA 
+>   password:  Mcr099123@2  
+> 
+> X
+
+
+
+
+```
