@@ -138,4 +138,29 @@ Step 3/8 : RUN  dnf install java-1.8.0-openjdk.x86_64 java-1.8.0-openjdk-devel.x
  ---> Running in bfb52c66f712
 ```
 
+### webapp containerization 
+
+<img src="webs.png">
+
+### DNFs installing httpd 
+
+```
+[ashu@ip-172-31-79-145 beginner-html-site-styled]$ ls
+CODE_OF_CONDUCT.md  Dockerfile  images  index.html  LICENSE  README.md  styles
+[ashu@ip-172-31-79-145 beginner-html-site-styled]$ docker build -t  ashuhttpd:aug17th2021 . 
+Sending build context to Docker daemon  63.49kB
+Step 1/5 : FROM oraclelinux:8.4
+ ---> fcf3cbfc22ac
+Step 2/5 : LABEL name=ashutoshh
+ ---> Using cache
+ ---> 6ac21e84f537
+Step 3/5 : RUN dnf install httpd -y
+ ---> Running in fd2b9ca4f3b8
+
+```
+### creating 
+
+```
+ docker  run -itd  --name ashuwebc1  -p  1234:80   ashuhttpd:aug17th2021
+```
 
