@@ -117,3 +117,10 @@ docker  run -itd --name ashumssql  -e  "ACCEPT_EULA=Y"  -e  "MSSQL_SA_PASSWORD=M
 docker  run -itd --name ashumysql -p 4433:3306  -v ashumysqlvol:/var/lib/mysql mysql 
 ```
 
+### nginx with volume 
+
+```
+docker run -itd --name ashuweb -p 1239:80 -v  /home/ashu/myimages/myhtmlapp:/usr/share/nginx/html:ro  nginx 
+
+```
+
