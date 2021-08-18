@@ -124,3 +124,24 @@ docker run -itd --name ashuweb -p 1239:80 -v  /home/ashu/myimages/myhtmlapp:/usr
 
 ```
 
+### Docker compose 
+
+<img src="compose.png">
+
+### docker compose installation 
+
+```
+  9  sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/l
+ocal/bin/docker-compose
+   10  sudo chmod +x /usr/local/bin/docker-compose
+   11  sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+   
+ ```
+ 
+ ### checking version 
+ 
+ ```
+ [ashu@ip-172-31-79-145 myimages]$ docker-compose  -v
+docker-compose version 1.29.2, build 5becea4c
+
+```
