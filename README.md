@@ -245,5 +245,124 @@ ashuwebc2   /docker-entrypoint.sh ngin ...   Up      0.0.0.0:8632->80/tcp
 
 [compose](https://github.com/redashu/docker-compose)
 
+## app deployment problem with Docker engine
 
-  
+<img src="prob.png">
+
+### Container orchestration engines 
+
+<img src="carch.png">
+
+### Intro to k8s 
+
+<img src="k8s.png">
+
+### k8s architecture 
+
+### LEvel 1 
+
+<img src="k8sl1.png">
+
+### kube apiserver and kube-schedular 
+
+<img src="apiserver_sch.png">
+
+###  k8s setup methods
+
+<img src="method.png">
+
+## Installing minikube 
+
+```
+❯ curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-darwin-amd64
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 65.9M  100 65.9M    0     0  5740k      0  0:00:11  0:00:11 --:--:-- 6685k
+❯ sudo install minikube-darwin-amd64 /usr/local/bin/minikube
+Password:
+
+```
+
+### checking minikube 
+
+```
+❯ minikube version
+minikube version: v1.22.0
+commit: a03fbcf166e6f74ef224d4a63be4277d017bb62e
+
+```
+
+### Minikube start
+
+```
+❯ minikube  start  --driver=docker
+😄  minikube v1.22.0 on Darwin 11.4
+✨  Using the docker driver based on existing profile
+👍  Starting control plane node minikube in cluster minikube
+🚜  Pulling base image ...
+🤷  docker "minikube" container is missing, will recreate.
+🔥  Creating docker container (CPUs=2, Memory=1988MB) ...
+🐳  Preparing Kubernetes v1.21.2 on Docker 20.10.7 ...
+🔎  Verifying Kubernetes components...
+    ▪ Using image gcr.io/k8s-minikube/storage-provisioner:v5
+🌟  Enabled addons: storage-provisioner, default-storageclass
+🏄  Done! kubectl is now configured to use "minikube" cluster and "default" namespace by default
+
+```
+
+### check status 
+
+```
+❯ minikube status
+minikube
+type: Control Plane
+host: Running
+kubelet: Running
+apiserver: Running
+kubeconfig: Configured
+
+
+```
+
+
+### k8s client options 
+
+<img src="k8scli.png">
+
+## k8s client 
+
+```
+❯ kubectl  version  --client
+Client Version: version.Info{Major:"1", Minor:"21", GitVersion:"v1.21.1", GitCommit:"5e58841cce77d4bc13713ad2b91fa0d961e69192", GitTreeState:"clean", BuildDate:"2021-05-12T14:18:45Z", GoVersion:"go1.16.4", Compiler:"gc", Platform:"darwin/amd64"}
+
+```
+
+### check conntion 
+
+```
+❯ kubectl  version
+Client Version: version.Info{Major:"1", Minor:"21", GitVersion:"v1.21.1", GitCommit:"5e58841cce77d4bc13713ad2b91fa0d961e69192", GitTreeState:"clean", BuildDate:"2021-05-12T14:18:45Z", GoVersion:"go1.16.4", Compiler:"gc", Platform:"darwin/amd64"}
+Server Version: version.Info{Major:"1", Minor:"21", GitVersion:"v1.21.2", GitCommit:"092fbfbf53427de67cac1e9fa54aaa09a28371d7", GitTreeState:"clean", BuildDate:"2021-06-16T12:53:14Z", GoVersion:"go1.16.5", Compiler:"gc", Platform:"linux/amd64"}
+
+
+====
+
+❯ kubectl  cluster-info
+Kubernetes control plane is running at https://127.0.0.1:51739
+CoreDNS is running at https://127.0.0.1:51739/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+
+To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
+
+
+====
+
+❯ kubectl  cluster-info
+Kubernetes control plane is running at https://127.0.0.1:51739
+CoreDNS is running at https://127.0.0.1:51739/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+
+To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
+
+
+```
+
+
