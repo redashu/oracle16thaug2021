@@ -145,3 +145,105 @@ ocal/bin/docker-compose
 docker-compose version 1.29.2, build 5becea4c
 
 ```
+
+
+### COmpose file info 
+
+<img src="file.png">
+
+### first example 
+
+```
+[ashu@ip-172-31-79-145 myimages]$ cd  ashucompose1/
+[ashu@ip-172-31-79-145 ashucompose1]$ ls
+docker-compose.yaml
+[ashu@ip-172-31-79-145 ashucompose1]$ docker-compose up -d
+Creating network "ashucompose1_default" with the default driver
+Creating ashuc1 ... done
+[ashu@ip-172-31-79-145 ashucompose1]$ docker-compose ps
+ Name      Command     State   Ports
+------------------------------------
+ashuc1   ping fb.com   Up           
+[ashu@ip-172-31-79-145 ashucompose1]$ docker-compose  stop 
+Stopping ashuc1 ... done
+[ashu@ip-172-31-79-145 ashucompose1]$ docker-compose   ps
+ Name      Command      State     Ports
+---------------------------------------
+ashuc1   ping fb.com   Exit 137        
+
+
+
+```
+
+### more compose commands 
+
+```
+ 468  docker-compose  images
+  469  docker-compose  ps
+  470  docker-compose  start
+  471  docker-compose  ps
+  472  docker-compose  logs 
+  473  docker-compose  logs  -f
+```
+
+## clean up project 
+
+```
+[ashu@ip-172-31-79-145 ashucompose1]$ docker-compose down 
+Stopping ashuc1 ... done
+Removing ashuc1 ... done
+Removing network ashucompose1_default
+
+```
+
+### multple app building 
+
+```
+[ashu@ip-172-31-79-145 ashuproject1]$ docker-compose up --build  -d
+Creating network "ashuproject1_default" with the default driver
+Building ashuwebapp2
+Sending build context to Docker daemon  260.6kB
+Step 1/3 : FROM nginx
+ ---> dd34e67e3371
+Step 2/3 : LABEL name=ashutoshh
+ ---> Using cache
+ ---> dda51a3f4247
+Step 3/3 : COPY webapp  /usr/share/nginx/html/
+ ---> c3d0d9554a9e
+Successfully built c3d0d9554a9e
+Successfully tagged nginx:18thaug2021v1
+Building ashuwebapp1
+Sending build context to Docker daemon  260.6kB
+Step 1/3 : FROM nginx
+ ---> dd34e67e3371
+Step 2/3 : LABEL name=ashutoshh
+ ---> Using cache
+ ---> dda51a3f4247
+Step 3/3 : COPY oracle.html  /usr/share/nginx/html/index.html
+ ---> Using cache
+ ---> 9106b9d6a303
+Successfully built 9106b9d6a303
+Successfully tagged nginx:18thaug2021
+Creating ashuwebc2 ... done
+Creating ashuwebc1 ... done
+
+
+```
+
+### 
+
+```
+[ashu@ip-172-31-79-145 ashuproject1]$ docker-compose ps
+  Name                 Command               State          Ports        
+-------------------------------------------------------------------------
+ashuwebc1   /docker-entrypoint.sh ngin ...   Up      0.0.0.0:6443->80/tcp
+ashuwebc2   /docker-entrypoint.sh ngin ...   Up      0.0.0.0:8632->80/tcp
+
+```
+
+### for details about docker compose examples 
+
+[compose](https://github.com/redashu/docker-compose)
+
+
+  
