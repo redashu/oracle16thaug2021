@@ -339,5 +339,188 @@ sahilservice1   NodePort    10.97.222.155   <none>        7855:31510/TCP   89s
 
 ```
 
+## Namespace  concept 
+
+<img src="ns.png">
+
+## checking 
+
+```
+❯ kubectl   get   namespaces
+NAME                   STATUS   AGE
+default                Active   6h9m
+kube-node-lease        Active   6h9m
+kube-public            Active   6h9m
+kube-system            Active   6h9m
+kubernetes-dashboard   Active   6h1m
+❯ kubectl  delete pods --all
+No resources found
+❯ kubectl  get  po
+No resources found in default namespace.
+
+
+
+```
+
+### k8s internal component are running as pod in kube-system ns
+
+```
+❯ kubectl   get  po   -n  kube-system
+NAME                                       READY   STATUS    RESTARTS   AGE
+calico-kube-controllers-58497c65d5-vlrr7   1/1     Running   0          6h6m
+calico-node-khnrd                          1/1     Running   0          6h6m
+calico-node-rpwzx                          1/1     Running   0          6h6m
+calico-node-wjswg                          1/1     Running   0          6h6m
+coredns-78fcd69978-ml27f                   1/1     Running   0          6h12m
+coredns-78fcd69978-zbc7z                   1/1     Running   0          6h12m
+etcd-masternode                            1/1     Running   0          6h12m
+kube-apiserver-masternode                  1/1     Running   0          6h12m
+kube-controller-manager-masternode         1/1     Running   0          6h12m
+kube-proxy-7bsvh                           1/1     Running   0          6h12m
+kube-proxy-bsjmt                           1/1     Running   0          6h10m
+kube-proxy-vwd6b                           1/1     Running   0          6h10m
+kube-scheduler-masternode                  1/1     Running   0          6h12m
+metrics-server-6fb5c69669-rbq9g            1/1     Running   0          6h4m
+
+```
+
+### ETCD in master Node
+
+<img src="etcd.png">
+
+### all k8s api resources 
+
+```
+❯ kubectl  api-resources
+NAME                              SHORTNAMES   APIVERSION                             NAMESPACED   KIND
+bindings                                       v1                                     true         Binding
+componentstatuses                 cs           v1                                     false        ComponentStatus
+configmaps                        cm           v1                                     true         ConfigMap
+endpoints                         ep           v1                                     true         Endpoints
+events                            ev           v1                                     true         Event
+limitranges                       limits       v1                                     true         LimitRange
+namespaces                        ns           v1                                     false        Namespace
+nodes                             no           v1                                     false        Node
+persistentvolumeclaims            pvc          v1                                     true         PersistentVolumeClaim
+persistentvolumes                 pv           v1                                     false        PersistentVolume
+pods                              po           v1                                     true         Pod
+podtemplates                                   v1                                     true         PodTemplate
+replicationcontrollers            rc           v1                                     true         ReplicationController
+resourcequotas                    quota        v1                                     true         ResourceQuota
+secrets                                        v1                                     true         Secret
+serviceaccounts                   sa           v1                                     true         ServiceAccount
+services                          svc          v1                                     true      
+
+```
+### kube-controller-manager 
+
+<img src="nc.png">
+
+### k8s master node component
+
+<img src="rc.png">
+
+### creating NS 
+
+```
+❯ kubectl   create   namespace   ashu-project
+namespace/ashu-project created
+❯ kubectl  get  ns
+NAME                   STATUS   AGE
+ashu-project           Active   7s
+default                Active   6h56m
+kube-node-lease        Active   6h56m
+kube-public            Active   6h56m
+kube-system            Active   6h56m
+kubernetes-dashboard   Active   6h47m
+```
+
+### setting default namespace 
+
+```
+❯ kubectl  config  set-context  --current  --namespace=ashu-project
+Context "kubernetes-admin@kubernetes" modified.
+❯ kubectl  config  get-contexts
+CURRENT   NAME                          CLUSTER      AUTHINFO           NAMESPACE
+*         kubernetes-admin@kubernetes   kubernetes   kubernetes-admin   ashu-project
+          minikube                      minikube     minikube           
+          
+ ```
+ 
+ ### deploy pod and svc 
+ 
+ ```
+ ❯ ls
+ashupod1.yaml ashusvc.yaml  ashuweb.yaml  logs.txt
+❯ kubectl  apply -f  ashuweb.yaml  -f  ashusvc.yaml
+pod/ashuwebpod created
+service/ashusvc1 created
+❯ kubectl  get  po,svc
+NAME             READY   STATUS    RESTARTS   AGE
+pod/ashuwebpod   1/1     Running   0          9s
+
+NAME               TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+service/ashusvc1   NodePort   10.98.245.226   <none>        1234:30480/TCP   9s
+
+
+```
+
+### delete all
+
+
+```
+❯ kubectl  delete  all --all
+pod "ashuwebpod" deleted
+service "ashusvc1" deleted
+
+```
+
+### checking all resources in a namespace 
+
+```
+❯ kubectl  get  all
+NAME             READY   STATUS    RESTARTS   AGE
+pod/ashuwebpod   1/1     Running   0          5s
+
+NAME               TYPE       CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
+service/ashusvc1   NodePort   10.106.108.213   <none>        1234:31195/TCP   5s
+
+```
+
+### Load balancer svc in cloud k8s 
+
+<img src="lb.png">
+
+## k8s dashboard 
+
+```
+❯ kubectl  get  pod  -n  kubernetes-dashboard
+NAME                                         READY   STATUS    RESTARTS   AGE
+dashboard-metrics-scraper-856586f554-6d7tk   1/1     Running   0          7h25m
+kubernetes-dashboard-78c79f97b4-lxfl9        1/1     Running   0          7h25m
+❯ kubectl  get svc  -n  kubernetes-dashboard
+NAME                        TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+dashboard-metrics-scraper   ClusterIP   10.110.212.158   <none>        8000/TCP   7h25m
+kubernetes-dashboard        ClusterIP   10.101.234.132   <none>        443/TCP    7h25m
+❯ kubectl  edit  svc   kubernetes-dashboard   -n  kubernetes-dashboard
+service/kubernetes-dashboard edited
+❯ kubectl  get svc  -n  kubernetes-dashboard
+NAME                        TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)         AGE
+dashboard-metrics-scraper   ClusterIP   10.110.212.158   <none>        8000/TCP        7h26m
+kubernetes-dashboard        NodePort    10.101.234.132   <none>        443:32408/TCP   7h26m
+
+
+```
+
+### checking dashboard secret 
+
+```
+kubectl  describe   secret  kubernetes-dashboard-token-qzwwj   -n kubernetes-dashboard
+
+```
+
+
+
+
 
  
