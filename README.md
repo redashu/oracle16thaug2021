@@ -135,4 +135,118 @@ BUG_REPORT_URL="https://bugs.alpinelinux.org/"
 
 
 ```
+### Generate YAML file 
+
+```
+❯ kubectl  run  ashuwebpod  --image=dockerashu/customer1:v1  --dry-run=client  -o yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: ashuwebpod
+  name: ashuwebpod
+spec:
+  containers:
+  - image: dockerashu/customer1:v1
+    name: ashuwebpod
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}
+
+```
+
+### JSON file generate 
+
+```
+ kubectl  run  ashuwebpod  --image=dockerashu/customer1:v1  --dry-run=client  -o json
+{
+    "kind": "Pod",
+    "apiVersion": "v1",
+    "metadata": {
+        "name": "ashuwebpod",
+        "creationTimestamp": null,
+        "labels": {
+            "run": "ashuwebpod"
+        }
+       
+       
+```
+
+### generate yaml and save in a file 
+
+```
+kubectl  run  ashuwebpod  --image=dockerashu/customer1:v1  --dry-run=client  -o yaml    >ashuweb.yaml
+
+```
+
+### kubectl replace. 
+
+```
+❯ kubectl  replace  -f  ashuweb.yaml --force
+pod "ashuwebpod" deleted
+pod/ashuwebpod replaced
+❯ kubectl  get  po -o wide
+NAME           READY   STATUS    RESTARTS   AGE     IP                NODE      NOMINATED NODE   READINESS GATES
+ashuwebpod     1/1     Running   0          5s      192.168.34.17     minion1   <none>           <none>
+jayawebpod     1/1     Running   0          2m7s    192.168.34.15     minion1   <none>           <none>
+
+```
+
+### Describe POD 
+
+```
+❯ kubectl  describe  pod  ashuwebpod
+Name:         ashuwebpod
+Namespace:    default
+Priority:     0
+Node:         minion1/172.31.60.77
+Start Time:   Thu, 19 Aug 2021 11:39:34 +0530
+Labels:       run=ashuwebpod
+Annotations:  cni.projectcalico.org/containerID: a086370abef4ce914bc8c5c7298aea8f8a2529119d49be618332967a8956c75b
+              cni.projectcalico.org/podIP: 192.168.34.17/32
+              cni.projectcalico.org/podIPs: 192.168.34.17/32
+Status:       Running
+IP:           192.168.34.17
+IPs:
+  IP:  192.168.34.17
+Containers:
+  ashuwebpod:
+    Container ID:   docker://48d33bdae7b2f1487e012a30b1b7ff48d9a99364b65d192f7bfe389ed1dd79f6
+    Image:          dockerashu/customer1:v1
+    Image ID:       docker-pullable://dockerashu/customer1@sha256:651c5a1bcd0c473c18e0d8c254d6685a5d8013dd3c6c70e8889b6adefcf46de1
+    Port:           <none>
+    Host Port:      <none>
+    State:          Running
+      Started:      Thu, 19 Aug 2021 11:39:36 +0530
+    Ready:          True
+    Restart Count:  0
+    Environment:
+      myapp:  app3
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-vdn6p (ro)
+Conditions:
+  Type              Status
+  Initialized       True 
+  Ready             True 
+  ContainersReady   True 
+  PodScheduled      True 
+Volumes:
+
+
+```
+
+## POD networking 
+
+<img src="podnet.png">
+
+## POd IP address is only can be accssed from Minion only 
+
+
+
+### port-forward 
+
+<img src="portf.png">
+
 
