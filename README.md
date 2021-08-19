@@ -261,5 +261,83 @@ Volumes:
  
  <img src="np.png">
  
+ ## svc will find pod using label 
  
+ ### checking label 
+ 
+ ```
+ ❯ kubectl  get  po  ashuwebpod  --show-labels
+NAME         READY   STATUS    RESTARTS   AGE    LABELS
+ashuwebpod   1/1     Running   0          166m   run=ashuwebpod
+❯ kubectl  get  po   --show-labels
+NAME            READY   STATUS    RESTARTS   AGE    LABELS
+ashuwebpod      1/1     Running   0          166m   run=ashuwebpod
+jayawebpod      1/1     Running   0          164m   run=jayawebpod
+karthikwebpod   1/1     Running   0          165m   run=karthikwebpod
+neetuwebpod     1/1     Running   0          170m   run=neetuwebpod
+padmawebpod     1/1     Running   0          169m   run=padmawebpod
+poorviwebpod    1/1     Running   0          171m   run=poorviwebpod
+```
+### to create service 
+
+```
+❯ kubectl  create  service
+Create a service using specified subcommand.
+
+Aliases:
+service, svc
+
+Available Commands:
+  clusterip    Create a ClusterIP service.
+  externalname Create an ExternalName service.
+  loadbalancer Create a LoadBalancer service.
+  nodeport     Create a NodePort service.
+  
+  ```
+  
+  ### creating service 
+  
+  ```
+  ❯ kubectl  create  service   nodeport  ashusvc1  --tcp  1234:80  --dry-run=client  -o yaml
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: ashusvc1
+  name: ashusvc1
+spec:
+  ports:
+  - name: 1234-80
+    port: 1234
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: ashusvc1
+  type: NodePort
+status:
+  loadBalancer: {}
+❯ kubectl  create  service   nodeport  ashusvc1  --tcp  1234:80  --dry-run=client  -o yaml   >ashusvc.yaml
+
+
+```
+
+### create service 
+
+```
+❯ ls
+ashupod1.yaml ashusvc.yaml  ashuweb.yaml
+❯ kubectl  apply -f  ashusvc.yaml --dry-run=client
+service/ashusvc1 created (dry run)
+❯ kubectl  apply -f  ashusvc.yaml
+service/ashusvc1 created
+❯ kubectl  get  service
+NAME            TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+ashusvc1        NodePort    10.106.10.33    <none>        1234:32658/TCP   11s
+kubernetes      ClusterIP   10.96.0.1       <none>        443/TCP          5h30m
+sahilservice1   NodePort    10.97.222.155   <none>        7855:31510/TCP   89s
+
+```
+
+
  
