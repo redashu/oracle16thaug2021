@@ -101,3 +101,38 @@ yashpod-1      1/1     Running   0          4m25s
 kubectl  delete  pod  sahilpod-1
 
 ```
+
+
+### checking output of container inside pod 
+
+```
+kubectl  logs  -f  ashupod-1
+
+```
+
+### checking scheduling of pod 
+
+```
+❯ kubectl  get pod ashupod-1  -o wide
+NAME        READY   STATUS    RESTARTS   AGE   IP                NODE      NOMINATED NODE   READINESS GATES
+ashupod-1   1/1     Running   0          12m   192.168.179.196   minion2   <none>           <none>
+
+```
+
+## accessing container inside pod 
+
+```
+❯ kubectl  exec -it  ashupod-1  -- sh
+/ # 
+/ # cat  /etc/os-release 
+NAME="Alpine Linux"
+ID=alpine
+VERSION_ID=3.14.1
+PRETTY_NAME="Alpine Linux v3.14"
+HOME_URL="https://alpinelinux.org/"
+BUG_REPORT_URL="https://bugs.alpinelinux.org/"
+/ # exit
+
+
+```
+
