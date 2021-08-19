@@ -249,4 +249,17 @@ Volumes:
 
 <img src="portf.png">
 
-
+ ### intor to service 
+ 
+ <img src="svc.png">
+ 
+ ## type of service 
+ 
+ <img src="stype.png">
+ 
+ ## Nodeport 
+ 
+ <img src="np.png">
+ 
+ 
+ 
