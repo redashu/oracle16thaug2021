@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: ashuwebapp
+  name: ashuwebapp # name of deployment  
+spec: # for deployment  
+  replicas: 3 # number of Pod 
+  selector:
+    matchLabels:
+      app: ashuwebapp
+  strategy: {}
+  template: # template will be used by Deployment to create POD 
+    metadata:
+      creationTimestamp: null
+      labels: # label of Pod 
+        app: ashuwebapp
+    spec:
+      imagePullSecrets: # secret calling 
+      - name: ashuocr # name of secret  
+      containers:
+      - image: phx.ocir.io/axmbtg8judkl/javawebapp:v1 # image 
+        name: javawebapp # name of container 
+        resources: {}
+status: {}
