@@ -307,6 +307,9 @@ status:
   loadBalancer: {}
   
 ```
+###  k8s summary 
+
+<img src="sum.png">
 
 
-
+#
