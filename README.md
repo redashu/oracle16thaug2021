@@ -116,5 +116,17 @@ ashusvcz1   NodePort   10.111.49.135   <none>        8080:30348/TCP   8s
 
 ```
 
-### 
+###  scaling 
+
+```
+❯ kubectl  scale  deploy  ashuwebapp  --replicas=2
+deployment.apps/ashuwebapp scaled
+❯ kubectl  get  po
+NAME                          READY   STATUS    RESTARTS   AGE
+ashuwebapp-85c667b788-66rjh   1/1     Running   0          17m
+ashuwebapp-85c667b788-mcvbt   1/1     Running   0          2m27s
+
+```
+
+
 
