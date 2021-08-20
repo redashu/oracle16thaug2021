@@ -90,5 +90,31 @@ ashusvc1   NodePort   10.111.66.208   <none>        8080:32315/TCP   5s
 
 ```
 
+## intro to deployment 
 
+```
+kubectl  create  deployment   ashuwebapp   --image=phx.ocir.io/axmbtg8judkl/javawebapp:v1  --dry-run=client -o yaml  >ashudep.yaml
+
+```
+
+### doing deployment of app
+
+```
+3193  kubectl  apply -f  ashudep.yaml 
+ 3194  kubectl  get  deployment  
+ 3195  kubectl  get  deploy 
+ 3196  kubectl  get  pod
+
+❯ kubectl  get deploy
+NAME         READY   UP-TO-DATE   AVAILABLE   AGE
+ashuwebapp   1/1     1            1           100s
+❯ kubectl  expose deployment  ashuwebapp  --type NodePort --port 8080 --name ashusvcz1
+service/ashusvcz1 exposed
+❯ kubectl  get  svc
+NAME        TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+ashusvcz1   NodePort   10.111.49.135   <none>        8080:30348/TCP   8s
+
+```
+
+### 
 
