@@ -1,0 +1,9 @@
+apiVersion: v1 
+kind: Pod 
+metadata: # info about POD 
+ name: ashupod-1 # name of POD
+spec: # info about application 
+ containers: # info about container
+ - image: alpine  # docker image
+   name: ashuc1 # name of container 
+   command: ["sh","-c","ping fb.com"] # process 

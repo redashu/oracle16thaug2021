@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels: # label of POD 
+    run: ashujavaapp
+  name: ashujavaapp # name of pod 
+spec:
+  imagePullSecrets: # to define secret name 
+  - name: ashuocr # name of secret 
+  containers:
+  - image: phx.ocir.io/axmbtg8judkl/javawebapp:v1 # image from OCR 
+    name: ashujavaapp # name of container 
+    ports: # optional field but app port 
+    - containerPort: 8080
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}
