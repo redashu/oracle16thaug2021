@@ -128,5 +128,49 @@ ashuwebapp-85c667b788-mcvbt   1/1     Running   0          2m27s
 
 ```
 
+## k8s Volume 
+
+<img src="vol.png">
+
+### volume can take storage from 
+
+<img src="st.png">
+
+
+## k8s webapp with DB example 
+
+<img src="webdp.png">
+
+
+### create DB deployment yAML 
+
+```
+❯ kubectl  create  deployment   ashudb   --image=mysql:5.6    --dry-run=client -o yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: ashudb
+  name: ashudb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ashudb
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: ashudb
+    spec:
+      containers:
+      - image: mysql:5.6
+        name: mysql
+        resources: {}
+status: {}
+❯ kubectl  create  deployment   ashudb   --image=mysql:5.6    --dry-run=client -o yaml   >myapp.yaml
+```
 
 
