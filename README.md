@@ -44,6 +44,12 @@ status: {}
 
 ```
 
+### creating secret command 
+
+```
+kubectl  create  secret   docker-registry    ashuocr  --docker-server=phx.ocir.io  --docker-username=axmbtg8judkl/learntechbyme@gmail.com  --docker-password="NlvC"
+
+```
 
 ## deploy pod with secret. 
 
