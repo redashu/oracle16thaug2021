@@ -173,4 +173,140 @@ status: {}
 ❯ kubectl  create  deployment   ashudb   --image=mysql:5.6    --dry-run=client -o yaml   >myapp.yaml
 ```
 
+### creating secret to store password of db server 
+
+```
+❯ kubectl  create  secret   generic  ashudbsec  --from-literal  sqlpass=OracleDb099
+secret/ashudbsec created
+❯ kubectl  get secret
+NAME                  TYPE                                  DATA   AGE
+ashudbsec             Opaque                                1      34s
+
+```
+
+### deploy Db deployment 
+
+```
+❯ kubectl apply -f  myapp.yaml
+deployment.apps/ashudb created
+❯ kubectl  get  deploy
+NAME     READY   UP-TO-DATE   AVAILABLE   AGE
+ashudb   0/1     1            0           7s
+❯ kubectl  get   po
+NAME                      READY   STATUS    RESTARTS   AGE
+ashudb-59d6c86678-pdd5k   1/1     Running   0          17s
+❯ kubectl  get  deploy
+NAME     READY   UP-TO-DATE   AVAILABLE   AGE
+ashudb   1/1     1            1           22s
+❯ kubectl  get  secret
+NAME                  TYPE                                  DATA   AGE
+ashudbsec             Opaque                                1      5m56s
+ashuocr               kubernetes.io/dockerconfigjson        1      3h59m
+default-token-s2ndv   kubernetes.io/service-account-token   3      22h
+
+```
+
+### creating clusterIP type svc for Db 
+
+```
+❯ kubectl  expose deploy  ashudb  --type ClusterIP  --port 3306  --dry-run=client  -o yaml
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: ashudb
+  name: ashudb
+spec:
+  ports:
+  - port: 3306
+    protocol: TCP
+    targetPort: 3306
+  selector:
+    app: ashudb
+  type: ClusterIP
+status:
+  loadBalancer: {}
+
+
+```
+
+### creating webapp deployment 
+
+```
+❯ kubectl  create  deployment  ashuwebapp123  --image=wordpress:4.8-apache --dry-run=client -o yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: ashuwebapp123
+  name: ashuwebapp123
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ashuwebapp123
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: ashuwebapp123
+    spec:
+      containers:
+      - image: wordpress:4.8-apache
+        name: wordpress
+        resources: {}
+status: {}
+
+```
+
+### creating 
+
+```
+❯ kubectl  apply -f myapp.yaml
+deployment.apps/ashudb configured
+service/ashudb configured
+deployment.apps/ashuwebapp123 created
+❯ kubectl  get  deploy
+NAME            READY   UP-TO-DATE   AVAILABLE   AGE
+ashudb          1/1     1            1           34m
+ashuwebapp123   0/1     1            0           11s
+❯ kubectl  get   po
+NAME                             READY   STATUS    RESTARTS   AGE
+ashudb-75c7fd5b7b-s8mvj          1/1     Running   0          34m
+ashuwebapp123-6f9f88d4b8-sjqn5   1/1     Running   0          21s
+❯ kubectl  get  deploy
+NAME            READY   UP-TO-DATE   AVAILABLE   AGE
+ashudb          1/1     1            1           35m
+ashuwebapp123   1/1     1            1           26s
+
+```
+
+### creating svc 
+
+```
+❯ kubectl  expose deploy  ashuwebapp123  --type NodePort --port 80  --dry-run=client -o yaml
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: ashuwebapp123
+  name: ashuwebapp123
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: ashuwebapp123
+  type: NodePort
+status:
+  loadBalancer: {}
+  
+```
+
+
 
