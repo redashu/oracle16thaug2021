@@ -1,0 +1,117 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: ashudb
+  name: ashudb # name of deployment  
+spec:
+  replicas: 1 # no of pod 
+  selector:
+    matchLabels:
+      app: ashudb
+  strategy: {}
+  template: # pod will be created from Template 
+    metadata:
+      creationTimestamp: null
+      labels: # label of POD 
+        app: ashudb
+    spec:
+      volumes: # creating volume from Minion Node 
+      - name: ashudbvol111 # name of volume 
+        hostPath: 
+         path: /ashudbspaceeee  # path will be checked in Minion node 
+         type: DirectoryOrCreate  # check if not present then it will create it
+      containers:
+      - image: mysql:5.6 # image name 
+        name: mysql # name of container 
+        volumeMounts: # mounting volume into db container
+        - name: ashudbvol111 # name of volume 
+          mountPath: /var/lib/mysql/ # mount location 
+        env: # create or update env var value 
+        - name: MYSQL_ROOT_PASSWORD # to set db root password 
+          valueFrom:  # password of DB 
+           secretKeyRef: # calling k8s secret 
+            name: ashudbsec # name of secret 
+            key: sqlpass # key of secret 
+        resources: {}
+status: {}
+
+---
+# creating service  of DB cluster IP type 
+
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: ashudb
+  name: ashudb
+spec:
+  ports:
+  - port: 3306
+    protocol: TCP
+    targetPort: 3306
+  selector:
+    app: ashudb
+  type: ClusterIP
+status:
+  loadBalancer: {}
+
+---
+
+# creating webapp deployment 
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: ashuwebapp123
+  name: ashuwebapp123
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ashuwebapp123
+  strategy: {}
+  template: # template of POD 
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: ashuwebapp123
+    spec:
+      containers:
+      - image: wordpress:4.8-apache
+        name: wordpress
+        env: 
+        - name: WORDPRESS_DB_HOST
+          value: ashudb # svc name of DB 
+        - name: WORDPRESS_DB_PASSWORD
+          valueFrom:
+           secretKeyRef:
+            name: ashudbsec
+            key: sqlpass
+        resources: {}
+status: {}
+
+--- 
+# nodeport svc for web app
+
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: ashuwebapp123
+  name: ashuwebapp123
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: ashuwebapp123
+  type: NodePort
+status:
+  loadBalancer: {}
